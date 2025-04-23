@@ -4,7 +4,8 @@ import path from 'path';
 import cors from 'cors';
 import { connect } from './dbConfiguration.js';
 import morgan from 'morgan';
-import router from './routes/authRoutes.js';
+import authrouter from './routes/authRoutes.js';
+import productRouter from './routes/productRoutes.js'
 
 
 const accessLogStream = fs.createWriteStream(
@@ -40,8 +41,11 @@ app.get('/', (req, res) => {
     res.send("Server is running")
 })
 
+// authRouter
+app.use('/auth',authrouter);
 
-app.use('/auth',router);
+// productRouter
+app.use('/userProduct',productRouter)
 
 
 

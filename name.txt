@@ -1,0 +1,7 @@
+# Products details we have 
+
+1. models/Products.js
+2. controllers/productControllers.js
+3. routes/ProductRoutes.js
+4. validators/ProductValidators.js
+5. middleware/validateRequest.js

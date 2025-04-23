@@ -28,13 +28,21 @@ export const registerValidator = [
 
 export const searchUserValidator = [
     query('search')
-      .optional()
-      .isString().withMessage('Search must be a string'),
-  ]
+        .optional()
+        .isString().withMessage('Search must be a string'),
+]
 
 
 export const loginValidator = [
     body('email').isEmail().withMessage('A valid email is required'),
 
     body('password').notEmpty().withMessage('Password is required')
+]
+
+
+
+export const productValidator = [
+    body('name').notEmpty().withMessage('Name is required'),
+    body('price').isFloat({ gt: 0 }).withMessage('Price must be a positive number'),
+    body('category').notEmpty().withMessage('Category is required')
 ]
