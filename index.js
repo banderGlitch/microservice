@@ -2,13 +2,9 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import cors from 'cors';
-import verifyToken from './auth.js';
 import { connect } from './dbConfiguration.js';
 import morgan from 'morgan';
-import { registerValidator , loginValidator } from './middlewares/validators.js';
-import  validateRequest  from './middlewares/validateRequest.js'; 
-import { register, login, refresh_Token } from './authRoutes.js';
-
+import router from './routes/authRoutes.js';
 
 
 const accessLogStream = fs.createWriteStream(
@@ -17,14 +13,8 @@ const accessLogStream = fs.createWriteStream(
   );
 
 
-
-// Docker CI/CD pipeline 
-
-// express rounter 
-const router = express.Router();
-
 const app = express()
-const PORT = 9000;
+const PORT = 5000;
 
 // Use CORS middleware
 // Dockerization and CI/CD pipleline 
@@ -37,10 +27,10 @@ app.use(cors({
 
 // db connection 
 connect()
-//
 // Add morgan middleware
 // Used for logging the logs
 app.use(morgan('combined', { stream: accessLogStream }));
+
 app.use(morgan('dev'));
 app.use(express.json());
 
@@ -51,19 +41,8 @@ app.get('/', (req, res) => {
 })
 
 
-// register // login // refresh-token // delete // create 
-app.use(router.post('/register',registerValidator,validateRequest, register))
-app.use(router.post('/login', loginValidator,validateRequest, login))
-app.use(router.post('/refresh-token', refresh_Token))
-app.use(router.delete('/id', verifyToken))
+app.use('/auth',router);
 
-
-
-
-
-app.get('/profile', verifyToken, (req, res) => {
-    res.json({ message: `Welcome ${req.user.username}`, user: req.user });
-});
 
 
 app.listen(PORT, () => {
