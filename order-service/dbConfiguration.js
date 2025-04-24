@@ -6,8 +6,10 @@ dotenv.config()
 
 const uri = process.env.MONGODB_URL
 
+console.log("uri", uri)
 
-export async function connect() {
+
+export default async function connect() {
     try {
         await mongoose.connect(uri)
         console.log("You connect to mongodb url")
