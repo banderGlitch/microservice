@@ -1,12 +1,15 @@
 import express from 'express'
 import cors from 'cors';
 import  connect from './dbConfiguration.js';
+import orderRoute from './routes/orderRoutes.js'
 
 const PORT = 9200
 
 const app = express();
 
 app.use(express.json())
+
+app.use('/orders', orderRoute);
 
 connect()
 
