@@ -8,7 +8,6 @@ import authrouter from './routes/authRoutes.js';
 import productRouter from './routes/productRoutes.js'
 import { connectConsumer } from './kafka/orderConsumer.js';
 
-
 const accessLogStream = fs.createWriteStream(
     path.join(process.cwd(), 'access.log'),
     { flags: 'a' } // append mode

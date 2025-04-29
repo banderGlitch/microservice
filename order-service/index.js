@@ -18,7 +18,6 @@ connect()
 app.use(cors())
 
 
-connect
 connectProducer()
 
 
