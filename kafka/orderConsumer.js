@@ -4,8 +4,8 @@ import Product from "../models/Product.js";
 
 const orderCreateHandler = async (order) => {
     console.log('📦 New Order Event Received:', order);
-
-    for (const item of order.Product) {
+          
+    for (const item of order.products) {
         await Product.findOneAndUpdate(
             { _id: item.productId },
             { $inc: { stock: -item.quantity } }
