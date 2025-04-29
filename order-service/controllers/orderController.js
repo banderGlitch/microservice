@@ -1,26 +1,31 @@
 import Order from '../models/Orders.js';
 import axios from 'axios';
-
+import { produceOrderCreated } from '../kafka/orderProducer.js';
 
 export const createOrder = async (req, res) => {
     try {
         const { products, totalAmount, userId, address, paymentMode } = req.body
-
+        // old method 
         // 1. Validate each product ID from product-service
 
-        for (const item of products) {
-            try {
-                // try to use kafka in place of this 
-                const { data } = await axios.get(`http://localhost:5000/products/${item.productId}`);
-                //  // You can also check stock/price here if needed
-            } catch (err) {
-                return res.status(400).json({ message: `Invalid product ID: ${item.productId}` })
-            }
-        }
+        // for (const item of products) {
+        //     try {
+        //         // try to use kafka in place of this 
+        //         const { data } = await axios.get(`http://localhost:5000/products/${item.productId}`);
+        //         //  // You can also check stock/price here if needed
+        //     } catch (err) {
+        //         return res.status(400).json({ message: `Invalid product ID: ${item.productId}` })
+        //     }
+        // }
 
         const order = new Order({ userId, products, totalAmount, address, paymentMode });
         const saved = await order.save();
+        // Emit Event 
+        await produceOrderCreated(saved)
+
         res.status(201).json(saved);
+
+        
     } catch (err) {
         res.status(500).json({ message: 'Failed to create order', error: err.message });
     }
