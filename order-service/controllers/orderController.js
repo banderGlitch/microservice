@@ -25,7 +25,6 @@ export const createOrder = async (req, res) => {
 
         res.status(201).json(saved);
 
-        
     } catch (err) {
         res.status(500).json({ message: 'Failed to create order', error: err.message });
     }

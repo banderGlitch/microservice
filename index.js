@@ -6,6 +6,7 @@ import { connect } from './dbConfiguration.js';
 import morgan from 'morgan';
 import authrouter from './routes/authRoutes.js';
 import productRouter from './routes/productRoutes.js'
+import { connectConsumer } from './kafka/orderConsumer.js';
 
 
 const accessLogStream = fs.createWriteStream(
@@ -35,7 +36,7 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(morgan('dev'));
 app.use(express.json());
 
-
+connectConsumer()
 
 app.get('/', (req, res) => {
     res.send("Server is running for microservices!!!!")
