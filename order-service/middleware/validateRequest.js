@@ -7,6 +7,9 @@ export const validateRequest = (req, res, next) => {
       return res.status(422).json({ errors: errors.array() });
     }
     next();
-  };
+};
 
-  
+// order to order service  
+// or REST requests to product-service
+// OR: internal service-to-service call
+
